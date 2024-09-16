@@ -12,9 +12,10 @@ class Collection extends Model
 
     protected $fillable = [
         'name',
+        'user_id',
     ];
 
-    protected function images(): HasMany
+    public function images(): HasMany
     {
         return $this->hasMany(Image::class);
     }
