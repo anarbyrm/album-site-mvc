@@ -16,21 +16,21 @@
 
         <div class="form-group">
             <label for="exampleInputEmail1">Email</label>
-            <input name="email" type="email" class="form-control m-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            <input name="email" type="email" class="form-control m-1" aria-describedby="emailHelp" placeholder="Enter email">
             @error('email')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">New Password</label>
-            <input name="password" type="password" class="form-control m-1" id="exampleInputPassword1" placeholder="New Password">
+            <input name="password" type="password" class="form-control m-1" placeholder="New Password">
             @error('password')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Confirm Password</label>
-            <input name="password_confirm" type="password" class="form-control m-1" id="exampleInputPassword1" placeholder="Confirm Password">
+            <input name="password_confirm" type="password" class="form-control m-1" placeholder="Confirm Password">
             @error('password_confirm')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
