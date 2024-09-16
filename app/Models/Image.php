@@ -16,7 +16,7 @@ class Image extends Model
         'url'
     ];
 
-    protected function collection(): BelongsTo
+    public function collection(): BelongsTo
     {
         return $this->belongsTo(Collection::class);
     }
