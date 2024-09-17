@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h3>Add Image(s)</h3>
+    <h3>Add Image</h3>
     <hr>
 
     <form action="{{ route('images.store', ['collection_id' => $collection_id]) }}" method="POST" enctype="multipart/form-data">

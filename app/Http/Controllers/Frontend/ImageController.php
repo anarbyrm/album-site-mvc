@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ImageFromRequest;
 use App\Models\Collection;
 use App\Models\Image;
 use Carbon\Carbon;
@@ -23,23 +24,19 @@ class ImageController extends Controller
         return view('frontend.images.create', compact('collection_id'));
     }
 
-    public function store(int $collection_id, Request $request)
+    public function store(int $collection_id, ImageFromRequest $request)
     {
-        $validatedData = $request->all();
-        $collection = Collection::findOrFail($collection_id);
-        
-        if (!$request->hasFile('image')) {
-            return redirect()->back()->withErrors('No image file uploaded');
-        }
-        
-        $filePath = $this->_uploadImageAndGetFilePath($request->file('image'));
+        $validatedData = $request->validated();
+        Collection::findOrFail($collection_id);
+        $filePath = $this->_uploadImageAndGetFilePath($validatedData['image']);
 
         $newImage = new Image();
         $newImage->title = $validatedData['title'];
         $newImage->description = $validatedData['description'];
         $newImage->url = $filePath;
+        $newImage->collection_id = $collection_id;
+        $newImage->save();
 
-        $collection->images()->save($newImage);
         return redirect(route('images.index', compact('collection_id')));
     }
 

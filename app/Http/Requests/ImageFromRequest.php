@@ -22,7 +22,9 @@ class ImageFromRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|max:125',
+            'description' => 'nullable|max:300',
+            'image' => 'required|mimetypes:image/jpeg,image/png,image/gif',
         ];
     }
 }
