@@ -34,4 +34,8 @@ Route::controller(ImageController::class)
         Route::get('/', 'index')->name('index');
         Route::get('/new', 'create')->name('create');
         Route::post('/', 'store')->name('store');
+        Route::get('/{image_id}/detail', 'show')->name('show');
+        Route::post('/{image_id}/delete', 'delete')->name('remove');
+        Route::get('/{image_id}/edit', 'edit')->name('edit');
+        Route::post('/{image_id}/edit', 'update')->name('update');
     });

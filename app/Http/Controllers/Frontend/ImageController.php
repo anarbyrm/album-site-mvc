@@ -55,4 +55,28 @@ class ImageController extends Controller
         $currentDateTime = Str::slug(Carbon::now()->toDateTimeString());
         return $fileName  .$currentDateTime . '.' . $mimeType;
     }
+
+    public function delete(int $collection_id, int $image_id)
+    {
+        Collection::findOrFail($collection_id);
+        Image::destroy($image_id);
+        return redirect(route('images.index', compact('collection_id')));
+    }
+
+    public function show(int $collection_id, int $image_id)
+    {
+        $image = Image::whereCollectionId($collection_id)->where('id', $image_id)->first();
+        if ($image == null) abort(404);
+        return view('frontend.images.show', compact('image'));
+    }
+
+    public function edit(int $collection_id, int $image_id)
+    {
+        return view('frontend.images.edit');
+    }
+
+    public function update(int $collection_id, int $image_id, ImageFromRequest $request)
+    {
+        return redirect(route('images.show', compact('collection_id', 'image_id')));
+    }
 }

@@ -16,27 +16,11 @@
         <div class="collapse navbar-collapse d-flex justify-content-between align-items-center m-1" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home</a>
+              <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Albums</a>
+              <a class="nav-link" href="{{ route('collections.index') }}">Albums</a>
             </li>
-
-            {{-- @auth
-                <li class="nav-item">
-                   
-                </li>
-                <li class="nav-item">
-                    
-                </li>
-            @endauth
-
-            @guest
-                <li class="nav-item">
-                    
-                </li>
-            @endguest --}}
-
           </ul>
           <div class="d-flex align-items-center gap-3 justify-center">
             @auth
