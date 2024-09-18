@@ -27,7 +27,7 @@ Route::controller(CollectionController::class)
     });
 
 Route::controller(ImageController::class)
-    ->prefix('/images/{collection_id}')
+    ->prefix('/collections/{collection_id}/images')
     ->name('images.')
     ->middleware('auth')
     ->group(function() {
