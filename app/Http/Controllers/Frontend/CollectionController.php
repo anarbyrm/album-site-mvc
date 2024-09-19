@@ -7,6 +7,8 @@ use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+
+use function App\Helpers\Policy\canUserSeeCollection;
 use function Illuminate\Filesystem\join_paths;
 
 class CollectionController extends Controller
@@ -35,7 +37,11 @@ class CollectionController extends Controller
 
     public function delete(int $id)
     {
+        
         $collection = Collection::findOrFail($id);
+        // check if user owns the collection
+        canUserSeeCollection(request(), $collection);
+
         $images = $collection->images()->get();
         $imagePaths = $this->_getImagePaths($images);
 

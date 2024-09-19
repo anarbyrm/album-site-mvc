@@ -11,13 +11,18 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 
+use function App\Helpers\Policy\canUserSeeCollection;
 use function Illuminate\Filesystem\join_paths;
 
 class ImageController extends Controller
 {
     public function index(int $collection_id)
     {
-        $images = Image::whereCollectionId($collection_id)->get();
+        $collection = Collection::findOrFail($collection_id);
+        // check if user owns the collection
+        canUserSeeCollection(request(), $collection);
+
+        $images = $collection->images()->get();
         return view('frontend.images.index', compact('images', 'collection_id'));
     }
 
@@ -30,6 +35,10 @@ class ImageController extends Controller
     {
         $validatedData = $request->validated();
         $collection = Collection::findOrFail($collection_id);
+        
+        // check if user owns the collection
+        canUserSeeCollection(request(), $collection);
+
         $filePath = $this->_uploadImageAndGetFilePath($validatedData['image']);
         $validatedData['url'] = $filePath;
 
@@ -58,6 +67,7 @@ class ImageController extends Controller
         $image = $this->_findCollectionImageWithIdOrFail($collection_id, $image_id);
         $imagePath = $image->url;
         $deleteResult = Image::destroy($image->id);
+
         // remove old photo after successful deletion
         if ($deleteResult > 0) $this->_removeImage($imagePath);
         return redirect(route('images.index', compact('collection_id')));
@@ -78,6 +88,10 @@ class ImageController extends Controller
     private function _findCollectionImageWithIdOrFail(int $collection_id, int $image_id)
     {
         $image = Image::whereCollectionId($collection_id)->where('id', $image_id)->first();
+
+        // check if user owns the collection
+        canUserSeeCollection(request(), $image->collection()->get());
+
         if ($image == null) abort(404);
         return $image;
     }
