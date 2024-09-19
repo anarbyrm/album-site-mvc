@@ -2,8 +2,13 @@
 
 @section('content')
 <div class="container">
-    <h1><a href="{{ route('collections.index') }}">&lArr;</a> Images</h1>
-    <a href="{{ route('images.create', ['collection_id' => $collection_id ]) }}">+ Add Image</a>
+    <div class="row d-flex justify-content-center">
+        <div class="col-4">
+            <h1><a href="{{ route('collections.index') }}">&lArr;</a> Images</h1>
+            <a href="{{ route('images.create', ['collection_id' => $collection_id ]) }}">+ Add Image</a>
+
+        </div>
+    </div>
     <hr>
 
     <div class="row">

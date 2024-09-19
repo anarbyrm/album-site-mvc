@@ -8,15 +8,15 @@
     <title>Album Site</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light p-1">
+        <a class="navbar-brand" href="#">Album site</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse d-flex justify-content-between align-items-center m-1" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="nav-link" href="/">Home</a>
+              <a class="nav-link" href="{{ route('home') }}">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ route('collections.index') }}">Albums</a>
@@ -24,6 +24,10 @@
           </ul>
           <div class="d-flex align-items-center gap-3 justify-center">
             @auth
+            <div class="mt-1">
+              <strong>{{ auth()->user()->email }}</strong>
+            </div>
+
             <form action="{{ route('auth.logout') }}" method="POST">
                 @csrf
                 <input class="btn btn-danger" type="submit" value="Logout">

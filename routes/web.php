@@ -5,10 +5,14 @@ use App\Http\Controllers\Frontend\CollectionController;
 use App\Http\Controllers\Frontend\ImageController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function() {
+    return view('frontend.index');
+})->name('home');
+
 Route::controller(AuthController::class)
     ->prefix('/auth')
     ->name('auth.')
-    ->group(function () {
+    ->group(function() {
         Route::get('/login', 'login')->name('login.get');
         Route::post('/login', 'loginPost')->name('login.post');
         Route::get('/registration', 'register')->name('register.get');
@@ -24,6 +28,7 @@ Route::controller(CollectionController::class)
         Route::get('/', 'index')->name('index');
         Route::get('/new', 'create')->name('create');
         Route::post('/', 'store')->name('store');
+        Route::post('/{id}/delete', 'delete')->name('delete');
     });
 
 Route::controller(ImageController::class)

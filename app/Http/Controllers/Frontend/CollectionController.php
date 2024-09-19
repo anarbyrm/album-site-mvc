@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use function Illuminate\Filesystem\join_paths;
 
 class CollectionController extends Controller
 {
@@ -33,7 +35,29 @@ class CollectionController extends Controller
 
     public function delete(int $id)
     {
-        Collection::destroy($id);
+        $collection = Collection::findOrFail($id);
+        $images = $collection->images()->get();
+        $imagePaths = $this->_getImagePaths($images);
+
+        $collection->delete(); // cascade delete with image entities
+
+        // remove images from server after successful deletion
+        $this->_deleteImages($imagePaths);
         return redirect(route('collections.index'));
+    }
+
+    private function _getImagePaths(EloquentCollection $images)
+    {
+        $result = [];
+        foreach ($images as $image) $result[] = $image->url;
+        return $result;
+    }
+
+    private function _deleteImages(array $imagePaths) 
+    {
+        foreach ($imagePaths as $path) {
+            $fullPath = join_paths(storage_path('app/public'), $path);
+            unlink($fullPath);
+        }
     }
 }
